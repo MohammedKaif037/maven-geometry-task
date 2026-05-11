@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>com.app</groupId>
+  <artifactId>geometry-app</artifactId>
+  <name>GeometryApp</name>
+  <version>1.0.0</version>
+  <description>Application that uses GeometryLibrary.
+        Dependency version history:
+          geometry-core  1.0.0 → 1.1.0   (stable release)
+          geometry-utils 1.0.0-SNAPSHOT → 1.1.0-SNAPSHOT  (conflict resolved: pinned to 1.1.0-SNAPSHOT)
+          three-dimensional-shapes 1.0.0-SNAPSHOT → 1.1.0-SNAPSHOT (conflict resolved: pinned to 1.1.0-SNAPSHOT)</description>
+  <build>
+    <plugins>
+      <plugin>
+        <artifactId>maven-jar-plugin</artifactId>
+        <version>3.3.0</version>
+        <configuration>
+          <archive>
+            <manifest>
+              <mainClass>com.app.GeometryApp</mainClass>
+            </manifest>
+          </archive>
+        </configuration>
+      </plugin>
+      <plugin>
+        <artifactId>maven-shade-plugin</artifactId>
+        <version>3.5.0</version>
+        <executions>
+          <execution>
+            <phase>package</phase>
+            <goals>
+              <goal>shade</goal>
+            </goals>
+            <configuration>
+              <transformers>
+                <transformer>
+                  <mainClass>com.app.GeometryApp</mainClass>
+                </transformer>
+              </transformers>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
+  </build>
+  <repositories>
+    <repository>
+      <id>local</id>
+      <url>file://${user.home}/.m2/repository</url>
+    </repository>
+  </repositories>
+  <dependencyManagement>
+    <dependencies>
+      <dependency>
+        <groupId>com.geometry</groupId>
+        <artifactId>geometry-core</artifactId>
+        <version>${geometry.core.version}</version>
+      </dependency>
+    </dependencies>
+  </dependencyManagement>
+  <properties>
+    <geometry.utils.version>1.1.0-SNAPSHOT</geometry.utils.version>
+    <maven.compiler.source>11</maven.compiler.source>
+    <geometry.core.version>1.1.0</geometry.core.version>
+    <maven.compiler.target>11</maven.compiler.target>
+    <geometry.threed.version>1.1.0-SNAPSHOT</geometry.threed.version>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+  </properties>
+</project>
