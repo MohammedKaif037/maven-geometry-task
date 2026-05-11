@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
+         http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.app</groupId>
+    <artifactId>geometry-app</artifactId>
+    <version>1.0.0</version>
+    <packaging>jar</packaging>
+    <name>GeometryApp</name>
+    <description>
+        Application that uses GeometryLibrary.
+        Dependency version history:
+          geometry-core  1.0.0 → 1.1.0   (stable release)
+          geometry-utils 1.0.0-SNAPSHOT → 1.1.0-SNAPSHOT  (conflict resolved: pinned to 1.1.0-SNAPSHOT)
+          three-dimensional-shapes 1.0.0-SNAPSHOT → 1.1.0-SNAPSHOT (conflict resolved: pinned to 1.1.0-SNAPSHOT)
+    </description>
+
+    <properties>
+        <maven.compiler.source>11</maven.compiler.source>
+        <maven.compiler.target>11</maven.compiler.target>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <!-- Centralize versions to resolve conflicts in one place -->
+        <geometry.core.version>1.1.0</geometry.core.version>
+        <geometry.utils.version>1.1.0-SNAPSHOT</geometry.utils.version>
+        <geometry.threed.version>1.1.0-SNAPSHOT</geometry.threed.version>
+    </properties>
+
+    <!--
+        DEPENDENCY CONFLICT RESOLUTION STRATEGY
+        =========================================
+        Both geometry-utils and three-dimensional-shapes declare a dependency
+        on geometry-core. Maven's nearest-wins rule would pick whichever appears
+        first in the tree, potentially causing version skew.
+
+        Solution: declare geometry-core explicitly in <dependencyManagement>
+        so Maven uses exactly 1.1.0 everywhere, regardless of transitive order.
+    -->
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>com.geometry</groupId>
+                <artifactId>geometry-core</artifactId>
+                <version>${geometry.core.version}</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+    <dependencies>
+        <!-- 2D shapes core library -->
+        <dependency>
+            <groupId>com.geometry</groupId>
+            <artifactId>geometry-core</artifactId>
+            <version>${geometry.core.version}</version>
+        </dependency>
+
+        <!-- Utility functions (unit conversion, comparison, statistics) -->
+        <dependency>
+            <groupId>com.geometry</groupId>
+            <artifactId>geometry-utils</artifactId>
+            <version>${geometry.utils.version}</version>
+        </dependency>
+
+        <!-- 3D shapes module -->
+        <dependency>
+            <groupId>com.geometry</groupId>
+            <artifactId>three-dimensional-shapes</artifactId>
+            <version>${geometry.threed.version}</version>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <version>3.3.0</version>
+                <configuration>
+                    <archive>
+                        <manifest>
+                            <mainClass>com.app.GeometryApp</mainClass>
+                        </manifest>
+                    </archive>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
+    <!--
+        LOCAL REPOSITORY NOTE
+        =====================
+        Because GeometryLibrary modules are not published to Maven Central,
+        run the following before building GeometryApp:
+
+            cd GeometryLibrary && mvn install
+
+        This installs all modules into the local ~/.m2 repository so
+        GeometryApp can resolve them as local dependencies.
+    -->
+    <repositories>
+        <repository>
+            <id>local</id>
+            <url>file://${user.home}/.m2/repository</url>
+        </repository>
+    </repositories>
+</project>

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
+         http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>com.geometry</groupId>
+        <artifactId>geometry-library-parent</artifactId>
+        <version>1.1.0</version>
+    </parent>
+
+    <artifactId>geometry-utils</artifactId>
+    <!-- Version history:
+         1.0.0-SNAPSHOT: initial unit conversion + comparison utilities
+         1.1.0-SNAPSHOT: added ShapeComparator, sorting, and statistical helpers
+    -->
+    <version>1.1.0-SNAPSHOT</version>
+    <packaging>jar</packaging>
+    <name>GeometryUtils</name>
+    <description>Utility functions: unit conversion, shape comparison, statistics</description>
+
+    <dependencies>
+        <dependency>
+            <groupId>com.geometry</groupId>
+            <artifactId>geometry-core</artifactId>
+            <version>1.1.0</version>
+        </dependency>
+    </dependencies>
+</project>
